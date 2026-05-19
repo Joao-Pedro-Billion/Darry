@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Meu Controle Financeiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --card: #ffffff;
+            --bg: #f1f5f9;
+            --text: #334155;
+            --text-light: #64748b;
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 60px rgba(0,0,0,0.12);
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        .header p {
+            opacity: 0.9;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-tab {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .card-icon {
+            width: 50px; height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        .card-icon.green { background: #d1fae5; color: #059669; }
+        .card-icon.blue { background: #dbeafe; color: #2563eb; }
+        .card-icon.red { background: #fee2e2; color: #dc2626; }
+        .card-icon.purple { background: #ede9fe; color: #7c3aed; }
+        .card-icon.orange { background: #ffedd5; color: #ea580c; }
+        .card-icon.cyan { background: #cffafe; color: #0891b2; }
+        .card-icon.pink { background: #fce7f3; color: #db2777; }
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        .card-sub {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+        }
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99,102,241,0.4);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239,68,68,0.4);
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245,158,11,0.4);
+        }
+
+        .table-container {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        tr:hover td {
+            background: #f8fafc;
+        }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-success { background: #d1fae5; color: #059669; }
+        .badge-danger { background: #fee2e2; color: #dc2626; }
+        .badge-info { background: #dbeafe; color: #2563eb; }
+        .badge-warning { background: #ffedd5; color: #ea580c; }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .month-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .month-btn {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+        .month-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .month-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .annual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .annual-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .annual-card:hover {
+            transform: translateY(-3px);
+        }
+        .annual-card .month-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        .annual-card .month-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        .annual-card .month-detail {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        .save-area {
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            border: 2px dashed #10b981;
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .save-area h3 {
+            color: #059669;
+            margin-bottom: 10px;
+        }
+        .save-area p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--dark);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 14px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .nav-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+            .nav-tab { white-space: nowrap; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 10px; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-light);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .loan-card {
+            background: linear-gradient(135deg, #fef3c7, #fffbeb);
+            border: 2px solid #fbbf24;
+        }
+        .savings-card {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #34d399;
+        }
+
+        .chart-bar-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 150px;
+            padding: 20px 0;
+        }
+        .chart-bar-group {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 120px;
+            justify-content: center;
+        }
+        .chart-bar {
+            width: 45%;
+            border-radius: 6px 6px 0 0;
+            min-height: 5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+        .chart-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <div class="header">
+        <h1>💰 Meu Controle Financeiro</h1>
+        <p>Gerencie suas receitas, gastos, economias e emprestimos de forma pratica</p>
+    </div>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('dashboard')">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </button>
+            <button class="nav-tab" onclick="showSection('receitas')">
+                <i class="fas fa-wallet"></i> Receitas
+            </button>
+            <button class="nav-tab" onclick="showSection('gastos')">
+                <i class="fas fa-receipt"></i> Gastos
+            </button>
+            <button class="nav-tab" onclick="showSection('economia')">
+                <i class="fas fa-piggy-bank"></i> Economia Carro
+            </button>
+            <button class="nav-tab" onclick="showSection('emprestimos')">
+                <i class="fas fa-hand-holding-dollar"></i> Emprestimos
+            </button>
+            <button class="nav-tab" onclick="showSection('anual')">
+                <i class="fas fa-calendar-alt"></i> Resumo Anual
+            </button>
+            <button class="nav-tab" onclick="showSection('salvar')">
+                <i class="fas fa-save"></i> Salvar/Carregar
+            </button>
+        </div>
+
+        <div class="month-selector" id="monthSelector"></div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="section active">
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon green"><i class="fas fa-arrow-up"></i></div>
+                    <div class="card-title">Total Receitas (PIX + Dinheiro)</div>
+                    <div class="card-value" style="color: #059669;" id="dashReceitas">R$ 0,00</div>
+                    <div class="card-sub" id="dashReceitasDetalhe">PIX: R$ 0,00 | Dinheiro: R$ 0,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon red"><i class="fas fa-arrow-down"></i></div>
+                    <div class="card-title">Total Gastos</div>
+                    <div class="card-value" style="color: #dc2626;" id="dashGastos">R$ 0,00</div>
+                    <div class="card-sub" id="dashGastosDetalhe">Carne + Fruta + Internet</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon purple"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="card-title">Guardado para Carro</div>
+                    <div class="card-value" style="color: #7c3aed;" id="dashEconomia">R$ 0,00</div>
+                    <div class="card-sub" id="dashEconomiaMeta">Meta: R$ 0,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <div class="card-title">Emprestimos Recebidos</div>
+                    <div class="card-value" style="color: #ea580c;" id="dashEmprestimos">R$ 0,00</div>
+                    <div class="card-sub" id="dashEmprestimosRestante">Restante: R$ 0,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon cyan"><i class="fas fa-balance-scale"></i></div>
+                    <div class="card-title">Saldo do Mes</div>
+                    <div class="card-value" id="dashSaldo">R$ 0,00</div>
+                    <div class="card-sub" id="dashSaldoStatus">Receitas - Gastos</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon pink"><i class="fas fa-coins"></i></div>
+                    <div class="card-title">Saldo Liquido</div>
+                    <div class="card-value" id="dashLiquido">R$ 0,00</div>
+                    <div class="card-sub">Receitas - Gastos - Guardado</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Grafico Receitas vs Gastos - Ano</div>
+                <div class="chart-bar-container" id="annualChart"></div>
+            </div>
+        </div>
+
+        <!-- RECEITAS -->
+        <div id="receitas" class="section">
+            <div class="card">
+                <div class="section-title"><i class="fas fa-wallet" style="color: var(--secondary);"></i> Registrar Receita</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Valor em Dinheiro (R$)</label>
+                        <input type="number" id="recDinheiro" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor em PIX (R$)</label>
+                        <input type="number" id="recPix" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descricao (opcional)</label>
+                    <input type="text" id="recDesc" placeholder="Ex: Salario, Freelance, etc.">
+                </div>
+                <button class="btn btn-success" onclick="addReceita()">
+                    <i class="fas fa-plus"></i> Adicionar Receita
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><th>Data</th><th>Descricao</th><th>Dinheiro</th><th>PIX</th><th>Total</th><th>Acoes</th></tr>
+                    </thead>
+                    <tbody id="receitasTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- GASTOS -->
+        <div id="gastos" class="section">
+            <div class="card">
+                <div class="section-title"><i class="fas fa-receipt" style="color: var(--danger);"></i> Registrar Gasto</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Carne (R$)</label>
+                        <input type="number" id="gastoCarne" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Frutas (R$)</label>
+                        <input type="number" id="gastoFruta" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Plano de Internet do Celular (R$)</label>
+                    <input type="number" id="gastoInternet" placeholder="0,00" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Descricao/Observacao (opcional)</label>
+                    <input type="text" id="gastoDesc" placeholder="Ex: Compra do mes, etc.">
+                </div>
+                <button class="btn btn-danger" onclick="addGasto()">
+                    <i class="fas fa-plus"></i> Adicionar Gasto
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><th>Data</th><th>Descricao</th><th>Carne</th><th>Frutas</th><th>Internet</th><th>Total</th><th>Acoes</th></tr>
+                    </thead>
+                    <tbody id="gastosTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ECONOMIA -->
+        <div id="economia" class="section">
+            <div class="cards-grid">
+                <div class="card savings-card">
+                    <div class="card-icon green"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="card-title">Total Guardado para Carro</div>
+                    <div class="card-value" style="color: #059669; font-size: 2.2rem;" id="ecoTotal">R$ 0,00</div>
+                    <div class="card-sub" id="ecoMetaText">Meta: R$ 0,00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="ecoProgress" style="width: 0%; background: linear-gradient(90deg, #10b981, #34d399);">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-cog" style="color: var(--primary);"></i> Configurar Economia</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Meta do Carro (R$)</label>
+                        <input type="number" id="ecoMetaInput" placeholder="Ex: 50000" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor a Guardar Este Mes (R$)</label>
+                        <input type="number" id="ecoValorInput" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="definirMeta()">
+                        <i class="fas fa-bullseye"></i> Definir Meta
+                    </button>
+                    <button class="btn btn-primary" onclick="guardarValor()">
+                        <i class="fas fa-plus"></i> Guardar Valor
+                    </button>
+                    <button class="btn btn-danger" onclick="retirarValor()">
+                        <i class="fas fa-minus"></i> Retirar Valor
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container" style="margin-top: 20px;">
+                <table>
+                    <thead>
+                        <tr><th>Data</th><th>Tipo</th><th>Valor</th><th>Saldo Acumulado</th><th>Acoes</th></tr>
+                    </thead>
+                    <tbody id="economiaTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EMPRESTIMOS -->
+        <div id="emprestimos" class="section">
+            <div class="cards-grid">
+                <div class="card loan-card">
+                    <div class="card-icon orange"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <div class="card-title">Total Emprestado</div>
+                    <div class="card-value" style="color: #ea580c; font-size: 2.2rem;" id="empTotal">R$ 0,00</div>
+                    <div class="card-sub" id="empRestanteText">Restante a Receber: R$ 0,00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="empProgress" style="width: 0%; background: linear-gradient(90deg, #f59e0b, #fbbf24);">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-user-plus" style="color: var(--warning);"></i> Novo Emprestimo</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Nome da Pessoa</label>
+                        <input type="text" id="empNome" placeholder="Ex: Joao Silva">
+                    </div>
+                    <div class="form-group">
+                        <label>Valor Total Emprestado (R$)</label>
+                        <input type="number" id="empValorTotal" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Observacao (opcional)</label>
+                    <input type="text" id="empObs" placeholder="Ex: Para compra de moto">
+                </div>
+                <button class="btn btn-warning" onclick="addEmprestimo()">
+                    <i class="fas fa-plus"></i> Registrar Emprestimo
+                </button>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-money-bill-wave" style="color: var(--secondary);"></i> Registrar Pagamento Mensal</div>
+                <div class="form-group">
+                    <label>Selecionar Emprestimo</label>
+                    <select id="empSelect"><option value="">Selecione...</option></select>
+                </div>
+                <div class="form-group">
+                    <label>Valor Recebido Este Mes (R$)</label>
+                    <input type="number" id="empPagamento" placeholder="0,00" step="0.01" min="0">
+                </div>
+                <button class="btn btn-success" onclick="registrarPagamento()">
+                    <i class="fas fa-check"></i> Registrar Pagamento
+                </button>
+            </div>
+
+            <div class="table-container" style="margin-top: 20px;">
+                <table>
+                    <thead>
+                        <tr><th>Pessoa</th><th>Valor Total</th><th>Recebido</th><th>Restante</th><th>Status</th><th>Acoes</th></tr>
+                    </thead>
+                    <tbody id="emprestimosTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ANUAL -->
+        <div id="anual" class="section">
+            <div class="card">
+                <div class="section-title"><i class="fas fa-calendar-alt" style="color: var(--primary);"></i> Resumo Anual de Todos os Meses</div>
+                <div class="annual-grid" id="annualGrid"></div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-chart-line" style="color: var(--secondary);"></i> Totais do Ano</div>
+                <div class="cards-grid">
+                    <div class="card" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5);">
+                        <div class="card-icon green"><i class="fas fa-arrow-up"></i></div>
+                        <div class="card-title">Total Receitas no Ano</div>
+                        <div class="card-value" style="color: #059669;" id="anualReceitas">R$ 0,00</div>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #fef2f2, #fee2e2);">
+                        <div class="card-icon red"><i class="fas fa-arrow-down"></i></div>
+                        <div class="card-title">Total Gastos no Ano</div>
+                        <div class="card-value" style="color: #dc2626;" id="anualGastos">R$ 0,00</div>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe);">
+                        <div class="card-icon blue"><i class="fas fa-piggy-bank"></i></div>
+                        <div class="card-title">Total Guardado no Ano</div>
+                        <div class="card-value" style="color: #2563eb;" id="anualEconomia">R$ 0,00</div>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #fffbeb, #fef3c7);">
+                        <div class="card-icon orange"><i class="fas fa-hand-holding-dollar"></i></div>
+                        <div class="card-title">Total Recebido (Emprestimos)</div>
+                        <div class="card-value" style="color: #ea580c;" id="anualEmprestimos">R$ 0,00</div>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #f5f3ff, #ede9fe);">
+                        <div class="card-icon purple"><i class="fas fa-balance-scale"></i></div>
+                        <div class="card-title">Saldo Liquido do Ano</div>
+                        <div class="card-value" style="color: #7c3aed;" id="anualSaldo">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SALVAR -->
+        <div id="salvar" class="section">
+            <div class="save-area">
+                <i class="fas fa-download" style="font-size: 3rem; color: #10b981; margin-bottom: 15px;"></i>
+                <h3>Salvar Dados</h3>
+                <p>Exporte todos os seus dados financeiros para um arquivo JSON. Guarde em um lugar seguro!</p>
+                <button class="btn btn-success" onclick="salvarDados()">
+                    <i class="fas fa-download"></i> Baixar Arquivo de Dados
+                </button>
+            </div>
+
+            <div class="save-area" style="margin-top: 20px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6;">
+                <i class="fas fa-upload" style="font-size: 3rem; color: #3b82f6; margin-bottom: 15px;"></i>
+                <h3 style="color: #2563eb;">Carregar Dados</h3>
+                <p>Carregue um arquivo de dados salvo anteriormente para restaurar suas informacoes.</p>
+                <div class="file-input-wrapper">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Selecionar Arquivo
+                    </button>
+                    <input type="file" id="fileInput" accept=".json" onchange="carregarDados(this)">
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-title"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Informacoes</div>
+                <p style="color: var(--text-light); line-height: 1.8;">
+                    <i class="fas fa-check-circle" style="color: var(--secondary);"></i> Seus dados sao salvos localmente no seu navegador (localStorage)<br>
+                    <i class="fas fa-check-circle" style="color: var(--secondary);"></i> Voce tambem pode exportar para um arquivo JSON e carregar quando quiser<br>
+                    <i class="fas fa-check-circle" style="color: var(--secondary);"></i> Nenhum dado e enviado para a internet - tudo fica no seu computador<br>
+                    <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i> Se limpar o cache do navegador, os dados locais serao perdidos. Faca backup!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Operacao realizada com sucesso!</span>
+    </div>
+
+    <script>
+        const meses = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        let currentMonth = new Date().getMonth();
+
+        let data = {
+            receitas: {},
+            gastos: {},
+            economia: { meta: 0, historico: [] },
+            emprestimos: []
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem('controleFinanceiro');
+            if (saved) data = JSON.parse(saved);
+        }
+
+        function saveData() {
+            localStorage.setItem('controleFinanceiro', JSON.stringify(data));
+        }
+
+        function formatMoney(val) {
+            return 'R$ ' + (val || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.className = 'toast show ' + (type || 'success');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.closest('.nav-tab').classList.add('active');
+            updateAll();
+        }
+
+        function renderMonthSelector() {
+            const container = document.getElementById('monthSelector');
+            container.innerHTML = '';
+            meses.forEach((m, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'month-btn' + (i === currentMonth ? ' active' : '');
+                btn.textContent = m;
+                btn.onclick = function() {
+                    currentMonth = i;
+                    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateAll();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // RECEITAS
+        function addReceita() {
+            const dinheiro = parseFloat(document.getElementById('recDinheiro').value) || 0;
+            const pix = parseFloat(document.getElementById('recPix').value) || 0;
+            const desc = document.getElementById('recDesc').value || 'Receita';
+
+            if (dinheiro === 0 && pix === 0) {
+                showToast('Informe pelo menos um valor!', 'error');
+                return;
+            }
+
+            if (!data.receitas[currentMonth]) data.receitas[currentMonth] = [];
+            data.receitas[currentMonth].push({
+                id: generateId(),
+                data: new Date().toLocaleDateString('pt-BR'),
+                desc, dinheiro, pix,
+                total: dinheiro + pix
+            });
+
+            document.getElementById('recDinheiro').value = '';
+            document.getElementById('recPix').value = '';
+            document.getElementById('recDesc').value = '';
+
+            saveData();
+            updateAll();
+            showToast('Receita adicionada com sucesso!');
+        }
+
+        function deleteReceita(id) {
+            if (!data.receitas[currentMonth]) return;
+            data.receitas[currentMonth] = data.receitas[currentMonth].filter(r => r.id !== id);
+            saveData();
+            updateAll();
+            showToast('Receita removida!');
+        }
+
+        function renderReceitas() {
+            const tbody = document.getElementById('receitasTable');
+            const lista = data.receitas[currentMonth] || [];
+            tbody.innerHTML = '';
+
+            if (lista.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-wallet"></i><p>Nenhuma receita registrada este mes</p></div></td></tr>';
+                return;
+            }
+
+            lista.forEach(function(r) {
+                tbody.innerHTML += '<tr><td>' + r.data + '</td><td>' + r.desc + '</td><td>' + formatMoney(r.dinheiro) + '</td><td>' + formatMoney(r.pix) + '</td><td><strong>' + formatMoney(r.total) + '</strong></td><td><button class="btn btn-danger" style="padding:6px 12px;font-size:0.8rem;" onclick="deleteReceita('' + r.id + '')"><i class="fas fa-trash"></i></button></td></tr>';
+            });
+        }
+
+        // GASTOS
+        function addGasto() {
+            const carne = parseFloat(document.getElementById('gastoCarne').value) || 0;
+            const fruta = parseFloat(document.getElementById('gastoFruta').value) || 0;
+            const internet = parseFloat(document.getElementById('gastoInternet').value) || 0;
+            const desc = document.getElementById('gastoDesc').value || 'Gasto';
+
+            if (carne === 0 && fruta === 0 && internet === 0) {
+                showToast('Informe pelo menos um gasto!', 'error');
+                return;
+            }
+
+            if (!data.gastos[currentMonth]) data.gastos[currentMonth] = [];
+            data.gastos[currentMonth].push({
+                id: generateId(),
+                data: new Date().toLocaleDateString('pt-BR'),
+                desc, carne, fruta, internet,
+                total: carne + fruta + internet
+            });
+
+            document.getElementById('gastoCarne').value = '';
+            document.getElementById('gastoFruta').value = '';
+            document.getElementById('gastoInternet').value = '';
+            document.getElementById('gastoDesc').value = '';
+
+            saveData();
+            updateAll();
+            showToast('Gasto registrado com sucesso!');
+        }
+
+        function deleteGasto(id) {
+            if (!data.gastos[currentMonth]) return;
+            data.gastos[currentMonth] = data.gastos[currentMonth].filter(g => g.id !== id);
+            saveData();
+            updateAll();
+            showToast('Gasto removido!');
+        }
+
+        function renderGastos() {
+            const tbody = document.getElementById('gastosTable');
+            const lista = data.gastos[currentMonth] || [];
+            tbody.innerHTML = '';
+
+            if (lista.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-receipt"></i><p>Nenhum gasto registrado este mes</p></div></td></tr>';
+                return;
+            }
+
+            lista.forEach(function(g) {
+                tbody.innerHTML += '<tr><td>' + g.data + '</td><td>' + g.desc + '</td><td>' + formatMoney(g.carne) + '</td><td>' + formatMoney(g.fruta) + '</td><td>' + formatMoney(g.internet) + '</td><td><strong style="color:var(--danger);">' + formatMoney(g.total) + '</strong></td><td><button class="btn btn-danger" style="padding:6px 12px;font-size:0.8rem;" onclick="deleteGasto('' + g.id + '')"><i class="fas fa-trash"></i></button></td></tr>';
+            });
+        }
+
+        // ECONOMIA
+        function definirMeta() {
+            const meta = parseFloat(document.getElementById('ecoMetaInput').value);
+            if (!meta || meta <= 0) {
+                showToast('Informe uma meta valida!', 'error');
+                return;
+            }
+            data.economia.meta = meta;
+            saveData();
+            updateAll();
+            showToast('Meta definida: ' + formatMoney(meta));
+        }
+
+        function guardarValor() {
+            const valor = parseFloat(document.getElementById('ecoValorInput').value);
+            if (!valor || valor <= 0) {
+                showToast('Informe um valor valido!', 'error');
+                return;
+            }
+            const acumulado = getEconomiaTotal() + valor;
+            data.economia.historico.push({
+                id: generateId(),
+                data: new Date().toLocaleDateString('pt-BR'),
+                tipo: 'Guardado',
+                valor, acumulado
+            });
+            document.getElementById('ecoValorInput').value = '';
+            saveData();
+            updateAll();
+            showToast(formatMoney(valor) + ' guardado para o carro!');
+        }
+
+        function retirarValor() {
+            const valor = parseFloat(document.getElementById('ecoValorInput').value);
+            if (!valor || valor <= 0) {
+                showToast('Informe um valor valido!', 'error');
+                return;
+            }
+            const total = getEconomiaTotal();
+            if (valor > total) {
+                showToast('Valor maior que o saldo guardado!', 'error');
+                return;
+            }
+            const acumulado = total - valor;
+            data.economia.historico.push({
+                id: generateId(),
+                data: new Date().toLocaleDateString('pt-BR'),
+                tipo: 'Retirado',
+                valor: -valor,
+                acumulado
+            });
+            document.getElementById('ecoValorInput').value = '';
+            saveData();
+            updateAll();
+            showToast(formatMoney(valor) + ' retirado da economia!');
+        }
+
+        function deleteEconomia(id) {
+            data.economia.historico = data.economia.historico.filter(e => e.id !== id);
+            let acc = 0;
+            data.economia.historico.forEach(function(e) {
+                acc += e.valor;
+                e.acumulado = acc;
+            });
+            saveData();
+            updateAll();
+            showToast('Registro removido!');
+        }
+
+        function getEconomiaTotal() {
+            return data.economia.historico.reduce(function(sum, e) { return sum + e.valor; }, 0);
+        }
+
+        function renderEconomia() {
+            const total = getEconomiaTotal();
+            const meta = data.economia.meta || 0;
+            const percent = meta > 0 ? Math.min((total / meta) * 100, 100) : 0;
+
+            document.getElementById('ecoTotal').textContent = formatMoney(total);
+            document.getElementById('ecoMetaText').textContent = meta > 0 ? 'Meta: ' + formatMoney(meta) : 'Meta nao definida';
+            document.getElementById('ecoProgress').style.width = percent + '%';
+            document.getElementById('ecoProgress').textContent = percent.toFixed(1) + '%';
+
+            const tbody = document.getElementById('economiaTable');
+            tbody.innerHTML = '';
+
+            if (data.economia.historico.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-piggy-bank"></i><p>Nenhum valor guardado ainda</p></div></td></tr>';
+                return;
+            }
+
+            var hist = data.economia.historico.slice().reverse();
+            hist.forEach(function(e) {
+                var isGuardado = e.tipo === 'Guardado';
+                tbody.innerHTML += '<tr><td>' + e.data + '</td><td><span class="badge ' + (isGuardado ? 'badge-success' : 'badge-danger') + '">' + e.tipo + '</span></td><td style="color:' + (isGuardado ? '#059669' : '#dc2626') + ';font-weight:600;">' + (isGuardado ? '+' : '') + formatMoney(Math.abs(e.valor)) + '</td><td><strong>' + formatMoney(e.acumulado) + '</strong></td><td><button class="btn btn-danger" style="padding:6px 12px;font-size:0.8rem;" onclick="deleteEconomia('' + e.id + '')"><i class="fas fa-trash"></i></button></td></tr>';
+            });
+        }
+
+        // EMPRESTIMOS
+        function addEmprestimo() {
+            const nome = document.getElementById('empNome').value.trim();
+            const valorTotal = parseFloat(document.getElementById('empValorTotal').value);
+            const obs = document.getElementById('empObs').value;
+
+            if (!nome) { showToast('Informe o nome da pessoa!', 'error'); return; }
+            if (!valorTotal || valorTotal <= 0) { showToast('Informe um valor valido!', 'error'); return; }
+
+            data.emprestimos.push({
+                id: generateId(),
+                nome, valorTotal,
+                recebido: 0,
+                obs,
+                pagamentos: []
+            });
+
+            document.getElementById('empNome').value = '';
+            document.getElementById('empValorTotal').value = '';
+            document.getElementById('empObs').value = '';
+
+            saveData();
+            updateAll();
+            showToast('Emprestimo registrado para ' + nome);
+        }
+
+        function registrarPagamento() {
+            const empId = document.getElementById('empSelect').value;
+            const valor = parseFloat(document.getElementById('empPagamento').value);
+
+            if (!empId) { showToast('Selecione um emprestimo!', 'error'); return; }
+            if (!valor || valor <= 0) { showToast('Informe um valor valido!', 'error'); return; }
+
+            const emp = data.emprestimos.find(e => e.id === empId);
+            if (!emp) return;
+
+            emp.recebido += valor;
+            emp.pagamentos.push({
+                mes: currentMonth,
+                valor,
+                data: new Date().toLocaleDateString('pt-BR')
+            });
+
+            document.getElementById('empPagamento').value = '';
+
+            saveData();
+            updateAll();
+            showToast('Pagamento de ' + formatMoney(valor) + ' registrado!');
+        }
+
+        function deleteEmprestimo(id) {
+            data.emprestimos = data.emprestimos.filter(e => e.id !== id);
+            saveData();
+            updateAll();
+            showToast('Emprestimo removido!');
+        }
+
+        function renderEmprestimos() {
+            const totalEmp = data.emprestimos.reduce(function(sum, e) { return sum + e.valorTotal; }, 0);
+            const totalRec = data.emprestimos.reduce(function(sum, e) { return sum + e.recebido; }, 0);
+            const restante = totalEmp - totalRec;
+            const percent = totalEmp > 0 ? (totalRec / totalEmp) * 100 : 0;
+
+            document.getElementById('empTotal').textContent = formatMoney(totalEmp);
+            document.getElementById('empRestanteText').textContent = 'Restante a Receber: ' + formatMoney(restante);
+            document.getElementById('empProgress').style.width = percent + '%';
+            document.getElementById('empProgress').textContent = percent.toFixed(1) + '%';
+
+            const select = document.getElementById('empSelect');
+            select.innerHTML = '<option value="">Selecione...</option>';
+            data.emprestimos.forEach(function(e) {
+                var rest = e.valorTotal - e.recebido;
+                if (rest > 0) {
+                    select.innerHTML += '<option value="' + e.id + '">' + e.nome + ' - Restante: ' + formatMoney(rest) + '</option>';
+                }
+            });
+
+            const tbody = document.getElementById('emprestimosTable');
+            tbody.innerHTML = '';
+
+            if (data.emprestimos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-hand-holding-dollar"></i><p>Nenhum emprestimo registrado</p></div></td></tr>';
+                return;
+            }
+
+            data.emprestimos.forEach(function(e) {
+                var rest = e.valorTotal - e.recebido;
+                var pago = rest <= 0;
+                tbody.innerHTML += '<tr><td><strong>' + e.nome + '</strong>' + (e.obs ? '<br><small style="color:var(--text-light);">' + e.obs + '</small>' : '') + '</td><td>' + formatMoney(e.valorTotal) + '</td><td style="color:var(--secondary);font-weight:600;">' + formatMoney(e.recebido) + '</td><td style="color:' + (pago ? 'var(--secondary)' : 'var(--danger)') + ';font-weight:600;">' + formatMoney(rest) + '</td><td><span class="badge ' + (pago ? 'badge-success' : 'badge-warning') + '">' + (pago ? 'Quitado' : 'Pendente') + '</span></td><td><button class="btn btn-danger" style="padding:6px 12px;font-size:0.8rem;" onclick="deleteEmprestimo('' + e.id + '')"><i class="fas fa-trash"></i></button></td></tr>';
+            });
+        }
+
+        // DASHBOARD
+        function updateDashboard() {
+            const recs = data.receitas[currentMonth] || [];
+            const totalRec = recs.reduce(function(sum, r) { return sum + r.total; }, 0);
+            const totalRecDinheiro = recs.reduce(function(sum, r) { return sum + r.dinheiro; }, 0);
+            const totalRecPix = recs.reduce(function(sum, r) { return sum + r.pix; }, 0);
+
+            const gastos = data.gastos[currentMonth] || [];
+            const totalGastos = gastos.reduce(function(sum, g) { return sum + g.total; }, 0);
+            const totalCarne = gastos.reduce(function(sum, g) { return sum + g.carne; }, 0);
+            const totalFruta = gastos.reduce(function(sum, g) { return sum + g.fruta; }, 0);
+            const totalInternet = gastos.reduce(function(sum, g) { return sum + g.internet; }, 0);
+
+            const ecoTotal = getEconomiaTotal();
+            const ecoMeta = data.economia.meta || 0;
+
+            var empTotalRec = 0;
+            data.emprestimos.forEach(function(e) {
+                e.pagamentos.forEach(function(p) {
+                    if (p.mes === currentMonth) empTotalRec += p.valor;
+                });
+            });
+            const empRestante = data.emprestimos.reduce(function(sum, e) { return sum + (e.valorTotal - e.recebido); }, 0);
+
+            const saldo = totalRec - totalGastos;
+            const liquido = saldo - empTotalRec;
+
+            document.getElementById('dashReceitas').textContent = formatMoney(totalRec);
+            document.getElementById('dashReceitasDetalhe').textContent = 'PIX: ' + formatMoney(totalRecPix) + ' | Dinheiro: ' + formatMoney(totalRecDinheiro);
+
+            document.getElementById('dashGastos').textContent = formatMoney(totalGastos);
+            document.getElementById('dashGastosDetalhe').textContent = 'Carne: ' + formatMoney(totalCarne) + ' | Fruta: ' + formatMoney(totalFruta) + ' | Internet: ' + formatMoney(totalInternet);
+
+            document.getElementById('dashEconomia').textContent = formatMoney(ecoTotal);
+            document.getElementById('dashEconomiaMeta').textContent = ecoMeta > 0 ? 'Meta: ' + formatMoney(ecoMeta) + ' (' + ((ecoTotal/ecoMeta)*100).toFixed(1) + '%)' : 'Meta nao definida';
+
+            document.getElementById('dashEmprestimos').textContent = formatMoney(empTotalRec);
+            document.getElementById('dashEmprestimosRestante').textContent = 'Restante total: ' + formatMoney(empRestante);
+
+            document.getElementById('dashSaldo').textContent = formatMoney(saldo);
+            document.getElementById('dashSaldo').style.color = saldo >= 0 ? '#059669' : '#dc2626';
+            document.getElementById('dashSaldoStatus').textContent = saldo >= 0 ? 'Superavit' : 'Deficit';
+
+            document.getElementById('dashLiquido').textContent = formatMoney(liquido);
+            document.getElementById('dashLiquido').style.color = liquido >= 0 ? '#059669' : '#dc2626';
+
+            renderAnnualChart();
+        }
+
+        function renderAnnualChart() {
+            const container = document.getElementById('annualChart');
+            container.innerHTML = '';
+
+            var maxVal = 0;
+            var chartData = [];
+            meses.forEach(function(m, i) {
+                var recs = data.receitas[i] || [];
+                var gastos = data.gastos[i] || [];
+                var rec = recs.reduce(function(s, r) { return s + r.total; }, 0);
+                var gast = gastos.reduce(function(s, g) { return s + g.total; }, 0);
+                maxVal = Math.max(maxVal, rec, gast);
+                chartData.push({ mes: m.substring(0, 3), rec: rec, gast: gast });
+            });
+
+            chartData.forEach(function(d) {
+                var heightRec = maxVal > 0 ? (d.rec / maxVal) * 100 : 0;
+                var heightGast = maxVal > 0 ? (d.gast / maxVal) * 100 : 0;
+
+                var group = document.createElement('div');
+                group.className = 'chart-bar-group';
+                group.innerHTML = '<div class="chart-bar" style="height:' + Math.max(heightRec, 5) + '%;background:linear-gradient(to top,#10b981,#34d399);" title="Receitas: ' + formatMoney(d.rec) + '"></div>' +
+                    '<div class="chart-bar" style="height:' + Math.max(heightGast, 5) + '%;background:linear-gradient(to top,#ef4444,#f87171);" title="Gastos: ' + formatMoney(d.gast) + '"></div>' +
+                    '<div class="chart-bar-label">' + d.mes + '</div>';
+                container.appendChild(group);
+            });
+        }
+
+        // ANUAL
+        function renderAnual() {
+            const grid = document.getElementById('annualGrid');
+            grid.innerHTML = '';
+
+            var totalAnualRec = 0, totalAnualGast = 0, totalAnualEco = 0, totalAnualEmp = 0;
+
+            meses.forEach(function(m, i) {
+                var recs = data.receitas[i] || [];
+                var gastos = data.gastos[i] || [];
+                var rec = recs.reduce(function(s, r) { return s + r.total; }, 0);
+                var gast = gastos.reduce(function(s, g) { return s + g.total; }, 0);
+                var saldo = rec - gast;
+
+                totalAnualRec += rec;
+                totalAnualGast += gast;
+
+                var empMes = 0;
+                data.emprestimos.forEach(function(e) {
+                    e.pagamentos.forEach(function(p) {
+                        if (p.mes === i) empMes += p.valor;
+                    });
+                });
+                totalAnualEmp += empMes;
+
+                var card = document.createElement('div');
+                card.className = 'annual-card';
+                card.innerHTML = '<div class="month-name">' + m + '</div>' +
+                    '<div class="month-total" style="color:' + (saldo >= 0 ? '#059669' : '#dc2626') + ';">' + formatMoney(saldo) + '</div>' +
+                    '<div class="month-detail">Rec: ' + formatMoney(rec) + ' | Gast: ' + formatMoney(gast) + '</div>' +
+                    '<div class="month-detail">Emp: ' + formatMoney(empMes) + '</div>';
+                grid.appendChild(card);
+            });
+
+            var ecoTotal = getEconomiaTotal();
+            totalAnualEco = ecoTotal;
+
+            document.getElementById('anualReceitas').textContent = formatMoney(totalAnualRec);
+            document.getElementById('anualGastos').textContent = formatMoney(totalAnualGast);
+            document.getElementById('anualEconomia').textContent = formatMoney(totalAnualEco);
+            document.getElementById('anualEmprestimos').textContent = formatMoney(totalAnualEmp);
+            document.getElementById('anualSaldo').textContent = formatMoney(totalAnualRec - totalAnualGast);
+        }
+
+        // SALVAR/CARREGAR
+        function salvarDados() {
+            var blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'controle-financeiro-' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Dados salvos com sucesso!');
+        }
+
+        function carregarDados(input) {
+            var file = input.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    var loaded = JSON.parse(e.target.result);
+                    data = loaded;
+                    saveData();
+                    updateAll();
+                    showToast('Dados carregados com sucesso!');
+                } catch (err) {
+                    showToast('Erro ao carregar arquivo!', 'error');
+                }
+            };
+            reader.readAsText(file);
+            input.value = '';
+        }
+
+        function updateAll() {
+            renderReceitas();
+            renderGastos();
+            renderEconomia();
+            renderEmprestimos();
+            updateDashboard();
+            renderAnual();
+        }
+
+        // INIT
+        loadData();
+        renderMonthSelector();
+        updateAll();
+    </script>
+</body>
+</html>
