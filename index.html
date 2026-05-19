@@ -1,164 +1,178 @@
+# Controle Financeiro 2026 Completo
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle Financeiro</title>
+<title>Controle Financeiro 2026</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:#f1f5f9;
-    padding:20px;
-    color:#1e293b;
+font-family:'Poppins',sans-serif;
+background:#f1f5f9;
+padding:20px;
+color:#1e293b;
 }
 
 .container{
-    max-width:1200px;
-    margin:auto;
+max-width:1400px;
+margin:auto;
 }
 
 h1{
-    text-align:center;
-    margin-bottom:20px;
+text-align:center;
+margin-bottom:25px;
+font-size:40px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-    margin-bottom:20px;
-}
-
-.card{
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
-}
-
-.card h2{
-    margin-bottom:15px;
-    font-size:20px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border:1px solid #cbd5e1;
-    border-radius:10px;
-    margin-bottom:10px;
-    font-size:16px;
+select,input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+margin-bottom:10px;
+font-size:15px;
 }
 
 button{
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    color:white;
-    transition:0.3s;
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:700;
+color:white;
+transition:0.3s;
 }
 
 button:hover{
-    opacity:0.9;
+opacity:0.9;
+transform:translateY(-2px);
 }
 
-.btn-green{
-    background:#10b981;
+.btn-green{background:#10b981;}
+.btn-red{background:#ef4444;}
+.btn-blue{background:#6366f1;}
+.btn-orange{background:#f59e0b;}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:20px;
+margin-bottom:25px;
 }
 
-.btn-red{
-    background:#ef4444;
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-.btn-blue{
-    background:#6366f1;
-}
-
-.btn-orange{
-    background:#f59e0b;
+.card h2{
+margin-bottom:15px;
 }
 
 .total{
-    font-size:30px;
-    font-weight:700;
-    margin-top:10px;
+font-size:30px;
+font-weight:700;
+margin-top:10px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-}
-
-th{
-    background:#6366f1;
-    color:white;
-    padding:12px;
-}
-
-td{
-    padding:12px;
-    border-bottom:1px solid #e2e8f0;
-    text-align:center;
-}
-
-.delete-btn{
-    background:#ef4444;
-    padding:8px 12px;
-}
+.green{color:#10b981;}
+.red{color:#ef4444;}
+.blue{color:#6366f1;}
+.orange{color:#f59e0b;}
 
 .resumo{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-bottom:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
 }
 
 .resumo-card{
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-.resumo-card h3{
-    margin-bottom:10px;
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
 
-.green{
-    color:#10b981;
+th{
+background:#6366f1;
+color:white;
+padding:12px;
 }
 
-.red{
-    color:#ef4444;
+td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid #e2e8f0;
 }
 
-.blue{
-    color:#6366f1;
+.delete-btn{
+background:#ef4444;
+padding:8px 12px;
 }
 
-.orange{
-    color:#f59e0b;
+canvas{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+@media(max-width:768px){
+body{
+padding:10px;
+}
+
+h1{
+font-size:28px;
+}
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>💰 Meu Controle Financeiro</h1>
+<h1>💰 Controle Financeiro 2026</h1>
+
+<div class="card" style="margin-bottom:25px;">
+<h2>📅 Selecionar Mês</h2>
+<select id="mesSelect">
+<option value="0">Janeiro</option>
+<option value="1">Fevereiro</option>
+<option value="2">Março</option>
+<option value="3">Abril</option>
+<option value="4">Maio</option>
+<option value="5">Junho</option>
+<option value="6">Julho</option>
+<option value="7">Agosto</option>
+<option value="8">Setembro</option>
+<option value="9">Outubro</option>
+<option value="10">Novembro</option>
+<option value="11">Dezembro</option>
+</select>
+</div>
 
 <div class="resumo">
 
@@ -173,7 +187,7 @@ td{
 </div>
 
 <div class="resumo-card">
-<h3>Guardado p/ Carro</h3>
+<h3>Economia Carro</h3>
 <div class="total blue" id="totalEconomia">R$ 0,00</div>
 </div>
 
@@ -186,415 +200,469 @@ td{
 
 <div class="grid">
 
-<!-- RECEITAS -->
 <div class="card">
-
-<h2>💵 Adicionar Receita</h2>
+<h2>💵 Receitas</h2>
 
 <input type="number" id="dinheiro" placeholder="Dinheiro">
-
 <input type="number" id="pix" placeholder="PIX">
-
 <input type="text" id="descReceita" placeholder="Descrição">
 
-<button class="btn-green" onclick="addReceita()">
-Adicionar Receita
-</button>
+<button class="btn-green" onclick="addReceita()">Adicionar Receita</button>
 
 <table>
 <thead>
 <tr>
 <th>Descrição</th>
 <th>Total</th>
+<th>Mês</th>
 <th>Ação</th>
 </tr>
 </thead>
-
 <tbody id="receitasTabela"></tbody>
-
 </table>
-
 </div>
 
-<!-- GASTOS -->
 <div class="card">
-
-<h2>🧾 Adicionar Gasto</h2>
+<h2>🧾 Gastos</h2>
 
 <input type="number" id="carne" placeholder="Carne">
-
 <input type="number" id="fruta" placeholder="Fruta">
-
 <input type="number" id="internet" placeholder="Internet">
-
 <input type="text" id="descGasto" placeholder="Descrição">
 
-<button class="btn-red" onclick="addGasto()">
-Adicionar Gasto
-</button>
+<button class="btn-red" onclick="addGasto()">Adicionar Gasto</button>
 
 <table>
-
 <thead>
 <tr>
 <th>Descrição</th>
 <th>Total</th>
+<th>Mês</th>
 <th>Ação</th>
 </tr>
 </thead>
-
 <tbody id="gastosTabela"></tbody>
-
 </table>
-
 </div>
 
 </div>
 
 <div class="grid">
 
-<!-- ECONOMIA -->
 <div class="card">
+<h2>🚗 Economia para Carro</h2>
 
-<h2>🚗 Economia Carro</h2>
+<input type="number" id="valorEconomia" placeholder="Valor para guardar">
 
-<input type="number" id="valorEconomia" placeholder="Valor">
-
-<button class="btn-blue" onclick="guardarDinheiro()">
-Guardar Dinheiro
-</button>
+<button class="btn-blue" onclick="guardarDinheiro()">Guardar Dinheiro</button>
 
 <table>
-
 <thead>
 <tr>
 <th>Valor</th>
+<th>Mês</th>
 <th>Ação</th>
 </tr>
 </thead>
-
 <tbody id="economiaTabela"></tbody>
-
 </table>
-
 </div>
 
-<!-- EMPRESTIMO -->
 <div class="card">
-
 <h2>🤝 Empréstimos</h2>
 
 <input type="text" id="nomeEmp" placeholder="Nome da pessoa">
-
 <input type="number" id="valorEmp" placeholder="Valor emprestado">
 
-<button class="btn-orange" onclick="addEmprestimo()">
-Adicionar Empréstimo
-</button>
+<button class="btn-orange" onclick="addEmprestimo()">Adicionar Empréstimo</button>
 
 <table>
-
 <thead>
 <tr>
 <th>Nome</th>
 <th>Valor</th>
+<th>Mês</th>
 <th>Ação</th>
 </tr>
 </thead>
-
 <tbody id="emprestimosTabela"></tbody>
-
 </table>
+</div>
 
 </div>
 
+<div class="card" style="margin-bottom:25px;">
+<h2>📊 Gráfico Financeiro 2026</h2>
+<canvas id="graficoFinanceiro"></canvas>
+</div>
+
+<div class="card">
+<h2>📈 Resumo Total de Todos os Meses de 2026</h2>
+
+<table>
+<thead>
+<tr>
+<th>Mês</th>
+<th>Receitas</th>
+<th>Gastos</th>
+<th>Economia</th>
+<th>Saldo</th>
+</tr>
+</thead>
+<tbody id="resumoMensalTabela"></tbody>
+</table>
 </div>
 
 </div>
 
 <script>
 
+const meses = [
+'Janeiro',
+'Fevereiro',
+'Março',
+'Abril',
+'Maio',
+'Junho',
+'Julho',
+'Agosto',
+'Setembro',
+'Outubro',
+'Novembro',
+'Dezembro'
+];
+
 let receitas = [];
 let gastos = [];
 let economia = [];
 let emprestimos = [];
 
+const grafico = new Chart(document.getElementById('graficoFinanceiro'), {
+    type: 'bar',
+    data: {
+        labels: meses,
+        datasets: [
+            {
+                label: 'Receitas',
+                data: [],
+                backgroundColor: '#10b981'
+            },
+            {
+                label: 'Gastos',
+                data: [],
+                backgroundColor: '#ef4444'
+            },
+            {
+                label: 'Economia',
+                data: [],
+                backgroundColor: '#6366f1'
+            }
+        ]
+    }
+});
+
 function formatar(valor){
-    return valor.toLocaleString('pt-BR',{
-        style:'currency',
-        currency:'BRL'
-    });
+return valor.toLocaleString('pt-BR',{
+style:'currency',
+currency:'BRL'
+});
 }
 
-function atualizarResumo(){
-
-    let totalReceitas = receitas.reduce((s,r)=>s+r.total,0);
-
-    let totalGastos = gastos.reduce((s,g)=>s+g.total,0);
-
-    let totalEconomia = economia.reduce((s,e)=>s+e.valor,0);
-
-    let saldo = totalReceitas - totalGastos - totalEconomia;
-
-    document.getElementById('totalReceitas').innerText = formatar(totalReceitas);
-
-    document.getElementById('totalGastos').innerText = formatar(totalGastos);
-
-    document.getElementById('totalEconomia').innerText = formatar(totalEconomia);
-
-    document.getElementById('saldoFinal').innerText = formatar(saldo);
-
+function mesAtual(){
+return Number(document.getElementById('mesSelect').value);
 }
 
 function addReceita(){
 
-    let dinheiro = parseFloat(document.getElementById('dinheiro').value) || 0;
+let dinheiro = parseFloat(document.getElementById('dinheiro').value) || 0;
+let pix = parseFloat(document.getElementById('pix').value) || 0;
+let desc = document.getElementById('descReceita').value || 'Receita';
 
-    let pix = parseFloat(document.getElementById('pix').value) || 0;
+let total = dinheiro + pix;
 
-    let desc = document.getElementById('descReceita').value || 'Receita';
-
-    let total = dinheiro + pix;
-
-    if(total <= 0){
-        alert('Digite um valor');
-        return;
-    }
-
-    let receita = {
-        id:Date.now(),
-        desc,
-        total
-    };
-
-    receitas.push(receita);
-
-    renderReceitas();
-
-    atualizarResumo();
-
-    limparCamposReceita();
+if(total <= 0){
+alert('Digite um valor válido');
+return;
 }
 
-function renderReceitas(){
+receitas.push({
+id:Date.now(),
+desc,
+total,
+mes:mesAtual()
+});
 
-    let tabela = document.getElementById('receitasTabela');
+renderReceitas();
+atualizarTudo();
 
-    tabela.innerHTML = '';
-
-    receitas.forEach(r=>{
-
-        tabela.innerHTML += `
-        <tr>
-            <td>${r.desc}</td>
-            <td>${formatar(r.total)}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteReceita(${r.id})">
-                    X
-                </button>
-            </td>
-        </tr>
-        `;
-    });
-}
-
-function deleteReceita(id){
-
-    receitas = receitas.filter(r=>r.id !== id);
-
-    renderReceitas();
-
-    atualizarResumo();
-}
-
-function limparCamposReceita(){
-
-    document.getElementById('dinheiro').value = '';
-
-    document.getElementById('pix').value = '';
-
-    document.getElementById('descReceita').value = '';
 }
 
 function addGasto(){
 
-    let carne = parseFloat(document.getElementById('carne').value) || 0;
+let carne = parseFloat(document.getElementById('carne').value) || 0;
+let fruta = parseFloat(document.getElementById('fruta').value) || 0;
+let internet = parseFloat(document.getElementById('internet').value) || 0;
+let desc = document.getElementById('descGasto').value || 'Gasto';
 
-    let fruta = parseFloat(document.getElementById('fruta').value) || 0;
+let total = carne + fruta + internet;
 
-    let internet = parseFloat(document.getElementById('internet').value) || 0;
-
-    let desc = document.getElementById('descGasto').value || 'Gasto';
-
-    let total = carne + fruta + internet;
-
-    if(total <= 0){
-        alert('Digite um valor');
-        return;
-    }
-
-    let gasto = {
-        id:Date.now(),
-        desc,
-        total
-    };
-
-    gastos.push(gasto);
-
-    renderGastos();
-
-    atualizarResumo();
-
-    limparCamposGastos();
+if(total <= 0){
+alert('Digite um valor válido');
+return;
 }
 
-function renderGastos(){
+gastos.push({
+id:Date.now(),
+desc,
+total,
+mes:mesAtual()
+});
 
-    let tabela = document.getElementById('gastosTabela');
+renderGastos();
+atualizarTudo();
 
-    tabela.innerHTML = '';
-
-    gastos.forEach(g=>{
-
-        tabela.innerHTML += `
-        <tr>
-            <td>${g.desc}</td>
-            <td>${formatar(g.total)}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteGasto(${g.id})">
-                    X
-                </button>
-            </td>
-        </tr>
-        `;
-    });
-}
-
-function deleteGasto(id){
-
-    gastos = gastos.filter(g=>g.id !== id);
-
-    renderGastos();
-
-    atualizarResumo();
-}
-
-function limparCamposGastos(){
-
-    document.getElementById('carne').value = '';
-
-    document.getElementById('fruta').value = '';
-
-    document.getElementById('internet').value = '';
-
-    document.getElementById('descGasto').value = '';
 }
 
 function guardarDinheiro(){
 
-    let valor = parseFloat(document.getElementById('valorEconomia').value);
+let valor = parseFloat(document.getElementById('valorEconomia').value);
 
-    if(!valor || valor <= 0){
-        alert('Digite um valor válido');
-        return;
-    }
-
-    economia.push({
-        id:Date.now(),
-        valor
-    });
-
-    renderEconomia();
-
-    atualizarResumo();
-
-    document.getElementById('valorEconomia').value = '';
+if(!valor || valor <= 0){
+alert('Digite um valor válido');
+return;
 }
 
-function renderEconomia(){
+economia.push({
+id:Date.now(),
+valor,
+mes:mesAtual()
+});
 
-    let tabela = document.getElementById('economiaTabela');
+renderEconomia();
+atualizarTudo();
 
-    tabela.innerHTML = '';
-
-    economia.forEach(e=>{
-
-        tabela.innerHTML += `
-        <tr>
-            <td>${formatar(e.valor)}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteEconomia(${e.id})">
-                    X
-                </button>
-            </td>
-        </tr>
-        `;
-    });
-}
-
-function deleteEconomia(id){
-
-    economia = economia.filter(e=>e.id !== id);
-
-    renderEconomia();
-
-    atualizarResumo();
 }
 
 function addEmprestimo(){
 
-    let nome = document.getElementById('nomeEmp').value;
+let nome = document.getElementById('nomeEmp').value;
+let valor = parseFloat(document.getElementById('valorEmp').value);
 
-    let valor = parseFloat(document.getElementById('valorEmp').value);
+if(!nome || !valor){
+alert('Preencha tudo');
+return;
+}
 
-    if(!nome || !valor){
-        alert('Preencha tudo');
-        return;
-    }
+emprestimos.push({
+id:Date.now(),
+nome,
+valor,
+mes:mesAtual()
+});
 
-    emprestimos.push({
-        id:Date.now(),
-        nome,
-        valor
-    });
+renderEmprestimos();
 
-    renderEmprestimos();
+}
 
-    document.getElementById('nomeEmp').value = '';
+function renderReceitas(){
 
-    document.getElementById('valorEmp').value = '';
+const tabela = document.getElementById('receitasTabela');
+tabela.innerHTML = '';
+
+receitas.forEach(r=>{
+
+tabela.innerHTML += `
+<tr>
+<td>${r.desc}</td>
+<td>${formatar(r.total)}</td>
+<td>${meses[r.mes]}</td>
+<td>
+<button class="delete-btn" onclick="deleteReceita(${r.id})">X</button>
+</td>
+</tr>
+`;
+
+});
+}
+
+function renderGastos(){
+
+const tabela = document.getElementById('gastosTabela');
+tabela.innerHTML = '';
+
+gastos.forEach(g=>{
+
+tabela.innerHTML += `
+<tr>
+<td>${g.desc}</td>
+<td>${formatar(g.total)}</td>
+<td>${meses[g.mes]}</td>
+<td>
+<button class="delete-btn" onclick="deleteGasto(${g.id})">X</button>
+</td>
+</tr>
+`;
+
+});
+}
+
+function renderEconomia(){
+
+const tabela = document.getElementById('economiaTabela');
+tabela.innerHTML = '';
+
+economia.forEach(e=>{
+
+tabela.innerHTML += `
+<tr>
+<td>${formatar(e.valor)}</td>
+<td>${meses[e.mes]}</td>
+<td>
+<button class="delete-btn" onclick="deleteEconomia(${e.id})">X</button>
+</td>
+</tr>
+`;
+
+});
 }
 
 function renderEmprestimos(){
 
-    let tabela = document.getElementById('emprestimosTabela');
+const tabela = document.getElementById('emprestimosTabela');
+tabela.innerHTML = '';
 
-    tabela.innerHTML = '';
+emprestimos.forEach(e=>{
 
-    emprestimos.forEach(e=>{
+tabela.innerHTML += `
+<tr>
+<td>${e.nome}</td>
+<td>${formatar(e.valor)}</td>
+<td>${meses[e.mes]}</td>
+<td>
+<button class="delete-btn" onclick="deleteEmprestimo(${e.id})">X</button>
+</td>
+</tr>
+`;
 
-        tabela.innerHTML += `
-        <tr>
-            <td>${e.nome}</td>
-            <td>${formatar(e.valor)}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteEmprestimo(${e.id})">
-                    X
-                </button>
-            </td>
-        </tr>
-        `;
-    });
+});
+}
+
+function deleteReceita(id){
+receitas = receitas.filter(r=>r.id !== id);
+renderReceitas();
+atualizarTudo();
+}
+
+function deleteGasto(id){
+gastos = gastos.filter(g=>g.id !== id);
+renderGastos();
+atualizarTudo();
+}
+
+function deleteEconomia(id){
+economia = economia.filter(e=>e.id !== id);
+renderEconomia();
+atualizarTudo();
 }
 
 function deleteEmprestimo(id){
+emprestimos = emprestimos.filter(e=>e.id !== id);
+renderEmprestimos();
+}
 
-    emprestimos = emprestimos.filter(e=>e.id !== id);
+function atualizarTudo(){
 
-    renderEmprestimos();
+let totalReceitas = receitas.reduce((s,r)=>s+r.total,0);
+let totalGastos = gastos.reduce((s,g)=>s+g.total,0);
+let totalEconomia = economia.reduce((s,e)=>s+e.valor,0);
+
+let saldo = totalReceitas - totalGastos - totalEconomia;
+
+
+document.getElementById('totalReceitas').innerText = formatar(totalReceitas);
+document.getElementById('totalGastos').innerText = formatar(totalGastos);
+document.getElementById('totalEconomia').innerText = formatar(totalEconomia);
+document.getElementById('saldoFinal').innerText = formatar(saldo);
+
+atualizarGrafico();
+atualizarResumoMensal();
+
+}
+
+function atualizarGrafico(){
+
+let receitasMes = [];
+let gastosMes = [];
+let economiaMes = [];
+
+for(let i=0;i<12;i++){
+
+let totalR = receitas
+.filter(r=>r.mes===i)
+.reduce((s,r)=>s+r.total,0);
+
+let totalG = gastos
+.filter(g=>g.mes===i)
+.reduce((s,g)=>s+g.total,0);
+
+let totalE = economia
+.filter(e=>e.mes===i)
+.reduce((s,e)=>s+e.valor,0);
+
+receitasMes.push(totalR);
+gastosMes.push(totalG);
+economiaMes.push(totalE);
+
+}
+
+grafico.data.datasets[0].data = receitasMes;
+grafico.data.datasets[1].data = gastosMes;
+grafico.data.datasets[2].data = economiaMes;
+
+grafico.update();
+
+}
+
+function atualizarResumoMensal(){
+
+const tabela = document.getElementById('resumoMensalTabela');
+
+tabela.innerHTML = '';
+
+for(let i=0;i<12;i++){
+
+let totalR = receitas
+.filter(r=>r.mes===i)
+.reduce((s,r)=>s+r.total,0);
+
+let totalG = gastos
+.filter(g=>g.mes===i)
+.reduce((s,g)=>s+g.total,0);
+
+let totalE = economia
+.filter(e=>e.mes===i)
+.reduce((s,e)=>s+e.valor,0);
+
+let saldo = totalR - totalG - totalE;
+
+
+tabela.innerHTML += `
+<tr>
+<td>${meses[i]}</td>
+<td>${formatar(totalR)}</td>
+<td>${formatar(totalG)}</td>
+<td>${formatar(totalE)}</td>
+<td>${formatar(saldo)}</td>
+</tr>
+`;
+
+}
+
 }
 
 </script>
 
 </body>
 </html>
+```
+
