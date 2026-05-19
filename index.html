@@ -10,7 +10,59 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+// SALVAR DADOS AUTOMATICAMENTE
+function salvarDados(){
+
+const dados = {
+receitas,
+gastos,
+economia,
+emprestimos
+};
+
+localStorage.setItem('controleFinanceiro2026', JSON.stringify(dados));
+
+}
+
+// CARREGAR DADOS
+function carregarDados(){
+
+const dadosSalvos = localStorage.getItem('controleFinanceiro2026');
+
+if(dadosSalvos){
+
+const dados = JSON.parse(dadosSalvos);
+
+receitas = dados.receitas || [];
+gastos = dados.gastos || [];
+economia = dados.economia || [];
+emprestimos = dados.emprestimos || [];
+
+renderReceitas();
+renderGastos();
+renderEconomia();
+renderEmprestimos();
+atualizarTudo();
+
+}
+
+}
+
+// SALVAR SEMPRE QUE ALTERAR
+const atualizarTudoOriginal = atualizarTudo;
+
+atualizarTudo = function(){
+
+atualizarTudoOriginal();
+salvarDados();
+
+}
+
+// INICIAR DADOS
+carregarDados();
+
+</script>
 
 <style>
 *{
@@ -213,21 +265,34 @@ font-size:28px;
 <thead>
 <tr>
 <th>Descrição</th>
+<th>Carne</th>
+<th>Fruta</th>
+<th>Internet</th>
+<th>Outros</th>
+<th>Total</th>
+<th>Mês</th>h>
+<th>Internet</th>
+<th>Outros</th>
 <th>Total</th>
 <th>Mês</th>
 <th>Ação</th>
 </tr>
 </thead>
-<tbody id="receitasTabela"></tbody>
+<tbody i<h2>🧾 Gastos Gerais</h2>
+<p style="margin-bottom:10px;color:#64748b;">Todos os gastos ficam registrados em um único lugar.</p>></tbody>
 </table>
 </div>
 
 <div class="card">
-<h2>🧾 Gastos</h2>
+<h2>🧾 Gastos Gerais</h2>
+<p style="margin-bottom:10px;color:#<input type="number" id="internet" placeholder="Internet">
+<input type="number" id="outrosGastos" placeholder="Outros gastos">co lugar.
+</p>
 
 <input type="number" id="carne" placeholder="Carne">
 <input type="number" id="fruta" placeholder="Fruta">
 <input type="number" id="internet" placeholder="Internet">
+<input type="number" id="outrosGastos" placeholder="Outros gastos">
 <input type="text" id="descGasto" placeholder="Descrição">
 
 <button class="btn-red" onclick="addGasto()">Adicionar Gasto</button>
@@ -375,7 +440,13 @@ return Number(document.getElementById('mesSelect').value);
 function addReceita(){
 
 let dinheiro = parseFloat(document.getElementById('dinheiro').value) || 0;
-let pix = parseFloat(document.getElementById('pix').value) || 0;
+let pix desc,
+carne,
+fruta,
+internet,
+outros,
+total,
+mes:mesAtual()ementById('pix').value) || 0;
 let desc = document.getElementById('descReceita').value || 'Receita';
 
 let total = dinheiro + pix;
@@ -385,26 +456,21 @@ alert('Digite um valor válido');
 return;
 }
 
-receitas.push({
-id:Date.now(),
-desc,
-total,
-mes:mesAtual()
-});
-
-renderReceitas();
+receitas.push({let internet = parseFloat(document.getElementById('internet').value) || 0;
+let outros = parseFloat(document.getElementById('outrosGastos').value) || 0;as();
 atualizarTudo();
 
 }
 
 function addGasto(){
 
-let carne = parseFloat(document.getElementById('carne').value) || 0;
+let carne = parseFllet total = carne + fruta + internet + outros;value) || 0;
 let fruta = parseFloat(document.getElementById('fruta').value) || 0;
 let internet = parseFloat(document.getElementById('internet').value) || 0;
+let outros = parseFloat(document.getElementById('outrosGastos').value) || 0;
 let desc = document.getElementById('descGasto').value || 'Gasto';
 
-let total = carne + fruta + internet;
+let total = carne + fruta + internet + outros;
 
 if(total <= 0){
 alert('Digite um valor válido');
@@ -412,6 +478,7 @@ return;
 }
 
 gastos.push({
+outros,
 id:Date.now(),
 desc,
 total,
@@ -471,10 +538,12 @@ tabela.innerHTML = '';
 
 receitas.forEach(r=>{
 
-tabela.innerHTML += `
-<tr>
-<td>${r.desc}</td>
-<td>${formatar(r.total)}</td>
+tabela.innerHTML +<td>${formatar(g.carne || 0)}</td>
+<td>${formatar(g.fruta || 0)}</td>
+<td>${formatar(g.internet || 0)}</td>
+<td>${formatar(g.outros || 0)}</td>
+<td>${formatar(g.total)}</td>
+<td>${meses[g.mes]}</td>td>
 <td>${meses[r.mes]}</td>
 <td>
 <button class="delete-btn" onclick="deleteReceita(${r.id})">X</button>
@@ -496,6 +565,10 @@ tabela.innerHTML += `
 <tr>
 <td>${g.desc}</td>
 <td>${formatar(g.total)}</td>
+<td>${formatar(g.carne || 0)}</td>
+<td>${formatar(g.fruta || 0)}</td>
+<td>${formatar(g.internet || 0)}</td>
+<td>${formatar(g.outros || 0)}</td>
 <td>${meses[g.mes]}</td>
 <td>
 <button class="delete-btn" onclick="deleteGasto(${g.id})">X</button>
@@ -665,4 +738,5 @@ tabela.innerHTML += `
 </body>
 </html>
 ```
+
 
