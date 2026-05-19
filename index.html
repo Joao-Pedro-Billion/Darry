@@ -453,6 +453,7 @@
             gap: 2px;
             height: 120px;
             justify-content: center;
+            position: relative;
         }
         .chart-bar {
             width: 45%;
@@ -484,26 +485,26 @@
     </div>
 
     <div class="container">
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('dashboard')">
+        <div class="nav-tabs" id="navTabs">
+            <button class="nav-tab active" data-section="dashboard">
                 <i class="fas fa-chart-pie"></i> Dashboard
             </button>
-            <button class="nav-tab" onclick="showSection('receitas')">
+            <button class="nav-tab" data-section="receitas">
                 <i class="fas fa-wallet"></i> Receitas
             </button>
-            <button class="nav-tab" onclick="showSection('gastos')">
+            <button class="nav-tab" data-section="gastos">
                 <i class="fas fa-receipt"></i> Gastos
             </button>
-            <button class="nav-tab" onclick="showSection('economia')">
+            <button class="nav-tab" data-section="economia">
                 <i class="fas fa-piggy-bank"></i> Economia Carro
             </button>
-            <button class="nav-tab" onclick="showSection('emprestimos')">
+            <button class="nav-tab" data-section="emprestimos">
                 <i class="fas fa-hand-holding-dollar"></i> Emprestimos
             </button>
-            <button class="nav-tab" onclick="showSection('anual')">
+            <button class="nav-tab" data-section="anual">
                 <i class="fas fa-calendar-alt"></i> Resumo Anual
             </button>
-            <button class="nav-tab" onclick="showSection('salvar')">
+            <button class="nav-tab" data-section="salvar">
                 <i class="fas fa-save"></i> Salvar/Carregar
             </button>
         </div>
@@ -575,7 +576,7 @@
                     <label>Descricao (opcional)</label>
                     <input type="text" id="recDesc" placeholder="Ex: Salario, Freelance, etc.">
                 </div>
-                <button class="btn btn-success" onclick="addReceita()">
+                <button class="btn btn-success" id="btnAddReceita">
                     <i class="fas fa-plus"></i> Adicionar Receita
                 </button>
             </div>
@@ -612,7 +613,7 @@
                     <label>Descricao/Observacao (opcional)</label>
                     <input type="text" id="gastoDesc" placeholder="Ex: Compra do mes, etc.">
                 </div>
-                <button class="btn btn-danger" onclick="addGasto()">
+                <button class="btn btn-danger" id="btnAddGasto">
                     <i class="fas fa-plus"></i> Adicionar Gasto
                 </button>
             </div>
@@ -654,13 +655,13 @@
                     </div>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-success" onclick="definirMeta()">
+                    <button class="btn btn-success" id="btnDefinirMeta">
                         <i class="fas fa-bullseye"></i> Definir Meta
                     </button>
-                    <button class="btn btn-primary" onclick="guardarValor()">
+                    <button class="btn btn-primary" id="btnGuardarValor">
                         <i class="fas fa-plus"></i> Guardar Valor
                     </button>
-                    <button class="btn btn-danger" onclick="retirarValor()">
+                    <button class="btn btn-danger" id="btnRetirarValor">
                         <i class="fas fa-minus"></i> Retirar Valor
                     </button>
                 </div>
@@ -706,7 +707,7 @@
                     <label>Observacao (opcional)</label>
                     <input type="text" id="empObs" placeholder="Ex: Para compra de moto">
                 </div>
-                <button class="btn btn-warning" onclick="addEmprestimo()">
+                <button class="btn btn-warning" id="btnAddEmprestimo">
                     <i class="fas fa-plus"></i> Registrar Emprestimo
                 </button>
             </div>
@@ -721,7 +722,7 @@
                     <label>Valor Recebido Este Mes (R$)</label>
                     <input type="number" id="empPagamento" placeholder="0,00" step="0.01" min="0">
                 </div>
-                <button class="btn btn-success" onclick="registrarPagamento()">
+                <button class="btn btn-success" id="btnRegistrarPagamento">
                     <i class="fas fa-check"></i> Registrar Pagamento
                 </button>
             </div>
@@ -781,7 +782,7 @@
                 <i class="fas fa-download" style="font-size: 3rem; color: #10b981; margin-bottom: 15px;"></i>
                 <h3>Salvar Dados</h3>
                 <p>Exporte todos os seus dados financeiros para um arquivo JSON. Guarde em um lugar seguro!</p>
-                <button class="btn btn-success" onclick="salvarDados()">
+                <button class="btn btn-success" id="btnSalvarDados">
                     <i class="fas fa-download"></i> Baixar Arquivo de Dados
                 </button>
             </div>
@@ -794,7 +795,7 @@
                     <button class="btn btn-primary">
                         <i class="fas fa-upload"></i> Selecionar Arquivo
                     </button>
-                    <input type="file" id="fileInput" accept=".json" onchange="carregarDados(this)">
+                    <input type="file" id="fileInput" accept=".json">
                 </div>
             </div>
 
@@ -848,27 +849,27 @@
             const toastMsg = document.getElementById('toastMsg');
             toastMsg.textContent = msg;
             toast.className = 'toast show ' + (type || 'success');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
 
         function showSection(id) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+            document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
             document.getElementById(id).classList.add('active');
-            event.target.closest('.nav-tab').classList.add('active');
+            document.querySelector('[data-section="' + id + '"]').classList.add('active');
             updateAll();
         }
 
         function renderMonthSelector() {
             const container = document.getElementById('monthSelector');
             container.innerHTML = '';
-            meses.forEach((m, i) => {
+            meses.forEach(function(m, i) {
                 const btn = document.createElement('button');
                 btn.className = 'month-btn' + (i === currentMonth ? ' active' : '');
                 btn.textContent = m;
                 btn.onclick = function() {
                     currentMonth = i;
-                    document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.month-btn').forEach(function(b) { b.classList.remove('active'); });
                     btn.classList.add('active');
                     updateAll();
                 };
@@ -891,7 +892,9 @@
             data.receitas[currentMonth].push({
                 id: generateId(),
                 data: new Date().toLocaleDateString('pt-BR'),
-                desc, dinheiro, pix,
+                desc: desc,
+                dinheiro: dinheiro,
+                pix: pix,
                 total: dinheiro + pix
             });
 
@@ -906,7 +909,7 @@
 
         function deleteReceita(id) {
             if (!data.receitas[currentMonth]) return;
-            data.receitas[currentMonth] = data.receitas[currentMonth].filter(r => r.id !== id);
+            data.receitas[currentMonth] = data.receitas[currentMonth].filter(function(r) { return r.id !== id; });
             saveData();
             updateAll();
             showToast('Receita removida!');
@@ -943,7 +946,10 @@
             data.gastos[currentMonth].push({
                 id: generateId(),
                 data: new Date().toLocaleDateString('pt-BR'),
-                desc, carne, fruta, internet,
+                desc: desc,
+                carne: carne,
+                fruta: fruta,
+                internet: internet,
                 total: carne + fruta + internet
             });
 
@@ -959,7 +965,7 @@
 
         function deleteGasto(id) {
             if (!data.gastos[currentMonth]) return;
-            data.gastos[currentMonth] = data.gastos[currentMonth].filter(g => g.id !== id);
+            data.gastos[currentMonth] = data.gastos[currentMonth].filter(function(g) { return g.id !== id; });
             saveData();
             updateAll();
             showToast('Gasto removido!');
@@ -1004,7 +1010,8 @@
                 id: generateId(),
                 data: new Date().toLocaleDateString('pt-BR'),
                 tipo: 'Guardado',
-                valor, acumulado
+                valor: valor,
+                acumulado: acumulado
             });
             document.getElementById('ecoValorInput').value = '';
             saveData();
@@ -1029,7 +1036,7 @@
                 data: new Date().toLocaleDateString('pt-BR'),
                 tipo: 'Retirado',
                 valor: -valor,
-                acumulado
+                acumulado: acumulado
             });
             document.getElementById('ecoValorInput').value = '';
             saveData();
@@ -1038,7 +1045,7 @@
         }
 
         function deleteEconomia(id) {
-            data.economia.historico = data.economia.historico.filter(e => e.id !== id);
+            data.economia.historico = data.economia.historico.filter(function(e) { return e.id !== id; });
             let acc = 0;
             data.economia.historico.forEach(function(e) {
                 acc += e.valor;
@@ -1089,9 +1096,10 @@
 
             data.emprestimos.push({
                 id: generateId(),
-                nome, valorTotal,
+                nome: nome,
+                valorTotal: valorTotal,
                 recebido: 0,
-                obs,
+                obs: obs,
                 pagamentos: []
             });
 
@@ -1111,13 +1119,13 @@
             if (!empId) { showToast('Selecione um emprestimo!', 'error'); return; }
             if (!valor || valor <= 0) { showToast('Informe um valor valido!', 'error'); return; }
 
-            const emp = data.emprestimos.find(e => e.id === empId);
+            const emp = data.emprestimos.find(function(e) { return e.id === empId; });
             if (!emp) return;
 
             emp.recebido += valor;
             emp.pagamentos.push({
                 mes: currentMonth,
-                valor,
+                valor: valor,
                 data: new Date().toLocaleDateString('pt-BR')
             });
 
@@ -1129,7 +1137,7 @@
         }
 
         function deleteEmprestimo(id) {
-            data.emprestimos = data.emprestimos.filter(e => e.id !== id);
+            data.emprestimos = data.emprestimos.filter(function(e) { return e.id !== id; });
             saveData();
             updateAll();
             showToast('Emprestimo removido!');
@@ -1332,10 +1340,34 @@
             renderAnual();
         }
 
-        // INIT
-        loadData();
-        renderMonthSelector();
-        updateAll();
+        // EVENT LISTENERS - FIX PRINCIPAL
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tabs de navegacao
+            document.querySelectorAll('.nav-tab').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                });
+            });
+
+            // Botoes de acao
+            document.getElementById('btnAddReceita').addEventListener('click', addReceita);
+            document.getElementById('btnAddGasto').addEventListener('click', addGasto);
+            document.getElementById('btnDefinirMeta').addEventListener('click', definirMeta);
+            document.getElementById('btnGuardarValor').addEventListener('click', guardarValor);
+            document.getElementById('btnRetirarValor').addEventListener('click', retirarValor);
+            document.getElementById('btnAddEmprestimo').addEventListener('click', addEmprestimo);
+            document.getElementById('btnRegistrarPagamento').addEventListener('click', registrarPagamento);
+            document.getElementById('btnSalvarDados').addEventListener('click', salvarDados);
+            document.getElementById('fileInput').addEventListener('change', function() {
+                carregarDados(this);
+            });
+
+            // Inicializar
+            loadData();
+            renderMonthSelector();
+            updateAll();
+        });
     </script>
 </body>
 </html>
